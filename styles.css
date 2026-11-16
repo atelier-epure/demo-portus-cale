@@ -1,0 +1,358 @@
+/* ============================================================
+   PORTUS CALE — preview Atelier Épure (mood Gastro, adapté)
+   Base : templates/moods/gastro/styles.css
+   Détail signature : frise d'azulejos + étymologie Portus Cale → Portugal
+   Asymétrie : hero titre bas-gauche, à propos 1/3 + 2/3, galerie à tuile maîtresse
+   ============================================================ */
+
+:root {
+  --color-bg:        #fafaf7;   /* blanc ivoire (émail des carreaux) */
+  --color-text:      #14213d;   /* encre bleu nuit */
+  --color-accent:    #1f4e9c;   /* bleu cobalt azulejo — accent principal */
+  --color-secondary: #12325f;   /* bleu profond */
+  --color-subtle:    #e6edf7;   /* bleu porcelaine très pâle */
+  --color-azulejo:   #1f4e9c;   /* bleu cobalt */
+  --color-azulejo-deep: #0f2a52;/* bleu nuit (fonds sombres) */
+  --color-azulejo-soft: #9fb6da;/* bleu clair (textes sur fond sombre) */
+  --color-bronze:    #b08d5b;   /* touche chaude conservée (porto, étoiles) */
+  --azulejo-tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%231f4e9c' stroke-width='1.6'%3E%3Ccircle cx='36' cy='36' r='11'/%3E%3Cpath d='M36 4c7 9 7 16 0 18c-7-2-7-9 0-18z'/%3E%3Cpath d='M36 68c7-9 7-16 0-18c-7 2-7 9 0 18z'/%3E%3Cpath d='M4 36c9-7 16-7 18 0c-2 7-9 7-18 0z'/%3E%3Cpath d='M68 36c-9-7-16-7-18 0c2 7 9 7 18 0z'/%3E%3Cpath d='M0 14a14 14 0 0 0 14-14M58 0a14 14 0 0 0 14 14M72 58a14 14 0 0 0-14 14M14 72A14 14 0 0 0 0 58'/%3E%3C/g%3E%3Cg fill='%231f4e9c'%3E%3Ccircle cx='36' cy='36' r='4'/%3E%3Cpath d='M36 26l3 5h-6zM36 46l3-5h-6zM26 36l5-3v6zM46 36l-5-3v6z'/%3E%3C/g%3E%3C/svg%3E");
+  --azulejo-tile-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.6'%3E%3Ccircle cx='36' cy='36' r='11'/%3E%3Cpath d='M36 4c7 9 7 16 0 18c-7-2-7-9 0-18z'/%3E%3Cpath d='M36 68c7-9 7-16 0-18c-7 2-7 9 0 18z'/%3E%3Cpath d='M4 36c9-7 16-7 18 0c-2 7-9 7-18 0z'/%3E%3Cpath d='M68 36c-9-7-16-7-18 0c2 7 9 7 18 0z'/%3E%3Cpath d='M0 14a14 14 0 0 0 14-14M58 0a14 14 0 0 0 14 14M72 58a14 14 0 0 0-14 14M14 72A14 14 0 0 0 0 58'/%3E%3C/g%3E%3Cg fill='%23ffffff'%3E%3Ccircle cx='36' cy='36' r='4'/%3E%3Cpath d='M36 26l3 5h-6zM36 46l3-5h-6zM26 36l5-3v6zM46 36l-5-3v6z'/%3E%3C/g%3E%3C/svg%3E");
+  --font-display:    'Cormorant Garamond', Georgia, serif;
+  --font-body:       'Manrope', system-ui, sans-serif;
+  --container-max:   1200px;
+  --section-padding: clamp(5rem, 12vh, 9rem);
+}
+
+/* ===== RESET + BASE ========================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body); color: var(--color-text); background: var(--color-bg);
+  line-height: 1.75; -webkit-font-smoothing: antialiased; font-weight: 300; overflow-x: hidden;
+}
+img { max-width: 100%; height: auto; display: block; }
+h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.15; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+ul, ol { list-style: none; }
+.container { max-width: var(--container-max); margin: 0 auto; padding: 0 6vw; }
+section { padding-block: var(--section-padding); }
+
+.section-label {
+  display: block; font-family: var(--font-body); font-size: 0.68rem;
+  letter-spacing: 0.22em; text-transform: uppercase; font-weight: 500;
+  color: var(--color-accent); margin-bottom: 1rem;
+}
+.section-title {
+  font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 300; font-style: italic; line-height: 1.1; margin-bottom: 3.5rem;
+}
+/* Mot-clé de chaque titre en bleu cobalt */
+.section-title em { color: var(--color-azulejo); font-style: italic; }
+
+/* ===== NAV ================================================== */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 2rem 3rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+  transition: background 400ms ease, padding 400ms ease;
+}
+.nav--scrolled {
+  background: rgba(250, 250, 247, 0.96); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  padding: 0.6rem 3rem; box-shadow: 0 1px 0 rgba(31,78,156,0.12);
+}
+/* Liseré cobalt sous la barre une fois scrollée */
+.nav--scrolled::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--color-azulejo); }
+/* Logo officiel (photo de profil Facebook, détourée) utilisé comme masque : sa couleur suit le fond. */
+.nav-logo { display: block; line-height: 0; position: relative; z-index: 101; }
+.nav-logo-mark {
+  display: block; width: 118px; aspect-ratio: 642 / 556;
+  background-color: var(--color-bg);
+  -webkit-mask: url('assets/logo-portus-cale.png') center / contain no-repeat;
+          mask: url('assets/logo-portus-cale.png') center / contain no-repeat;
+  filter: drop-shadow(0 2px 10px rgba(0,0,0,0.35));
+  transition: width 400ms ease, background-color 400ms ease, transform 500ms cubic-bezier(0.22,1,0.36,1);
+}
+.nav-logo:hover .nav-logo-mark { transform: rotate(-4deg) scale(1.04); }
+.nav--scrolled .nav-logo-mark, .nav--menu-open .nav-logo-mark { width: 66px; background-color: var(--color-azulejo); filter: none; }
+.nav-links { display: flex; gap: 2.25rem; }
+.nav-links a {
+  font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+  font-weight: 500; color: rgba(250,250,247,0.82); transition: color 300ms;
+}
+.nav--scrolled .nav-links a { color: var(--color-secondary); }
+.nav-links a:hover { color: var(--color-accent); }
+.nav-cta {
+  font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600;
+  padding: 0.7rem 1.6rem; border: 1px solid rgba(250,250,247,0.55); color: var(--color-bg);
+  transition: background 300ms, color 300ms, border-color 300ms; white-space: nowrap;
+}
+.nav-cta:hover { background: var(--color-bg); color: var(--color-text); }
+.nav--scrolled .nav-cta { border-color: var(--color-accent); color: var(--color-accent); }
+.nav--scrolled .nav-cta:hover { background: var(--color-accent); color: var(--color-bg); }
+
+.nav-burger { display: none; background: none; border: none; padding: 0.4rem; position: relative; z-index: 101; }
+.nav-burger span { display: block; width: 26px; height: 1.5px; background: var(--color-bg); margin: 6px 0; transition: transform 280ms, opacity 280ms, background 400ms; }
+.nav--scrolled .nav-burger span, .nav-burger[aria-expanded="true"] span { background: var(--color-text); }
+.nav-burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+.nav-burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+.nav-mobile { position: fixed; inset: 0; background: var(--color-bg); z-index: 99; padding: 7rem 2rem 3rem; overflow-y: auto; display: flex; flex-direction: column; justify-content: center; }
+.nav-mobile[hidden] { display: none; }
+.nav-mobile a { display: block; padding: 1.1rem 0; font-family: var(--font-display); font-size: 2.25rem; font-weight: 300; font-style: italic; color: var(--color-text); border-bottom: 1px solid var(--color-subtle); transition: color 200ms, padding-left 200ms; }
+.nav-mobile a:hover { color: var(--color-accent); padding-left: 0.75rem; }
+.nav-mobile .nav-mobile-tel { font-family: var(--font-body); font-style: normal; font-size: 0.85rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; color: var(--color-accent); border-bottom: none; margin-top: 1.5rem; }
+
+@media (max-width: 860px) {
+  .nav-links, .nav-cta { display: none; }
+  .nav-burger { display: block; }
+  .nav { padding: 1rem 1.25rem; }
+  .nav--scrolled { padding: 0.5rem 1.25rem; }
+  .nav-logo-mark { width: 78px; }
+  .nav--scrolled .nav-logo-mark, .nav--menu-open .nav-logo-mark { width: 56px; }
+}
+
+/* ===== HERO — full-bleed, titre bas-gauche ================= */
+.hero-full { position: relative; height: 100vh; height: 100svh; min-height: 640px; overflow: hidden; background: var(--color-secondary); }
+.hero-image { position: absolute; inset: 0; width: 100%; height: 115%; object-fit: cover; object-position: 50% 40%; z-index: 0; will-change: transform; }
+/* Photo d'azulejos très claire : voile bleu nuit plus dense en bas à gauche (zone du texte) pour la lisibilité */
+.hero-full::after {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(to bottom, rgba(10,24,48,0.55) 0%, transparent 30%),
+              linear-gradient(to top, rgba(10,24,48,0.88) 0%, rgba(10,24,48,0.45) 45%, rgba(10,24,48,0.35) 100%),
+              linear-gradient(to right, rgba(10,24,48,0.6) 0%, transparent 65%);
+}
+.hero-content { position: absolute; bottom: 10vh; left: 6vw; right: 6vw; z-index: 2; color: var(--color-bg); max-width: 720px; text-shadow: 0 2px 18px rgba(0,0,0,0.45); }
+.hero-eyebrow { display: block; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; font-weight: 500; opacity: 0.8; margin-bottom: 1.1rem; }
+.hero-title { font-family: var(--font-display); font-size: clamp(4.2rem, 12vw, 9rem); font-weight: 300; line-height: 0.86; letter-spacing: -0.015em; font-style: italic; margin-bottom: 1.6rem; }
+.hero-title .word:last-child { padding-left: 0.55em; } /* « Cale » décalé : casse l'alignement */
+.hero-slogan { font-family: var(--font-display); font-size: clamp(1.15rem, 2.2vw, 1.55rem); font-weight: 300; font-style: italic; opacity: 0.9; margin-bottom: 2.4rem; max-width: 34ch; }
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+.hero-cta { display: inline-block; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600; padding: 1rem 2.4rem; border: 1px solid rgba(250,250,247,0.7); color: var(--color-bg); transition: background 350ms, color 350ms; text-shadow: none; }
+.hero-cta:hover { background: var(--color-bg); color: var(--color-text); }
+.hero-cta--plain { border-color: transparent; padding-inline: 0.5rem; text-decoration: underline; text-underline-offset: 6px; text-decoration-color: rgba(250,250,247,0.4); }
+.hero-cta--plain:hover { background: none; color: var(--color-bg); text-decoration-color: var(--color-bg); }
+.hero-badge {
+  position: absolute; z-index: 2; right: 5vw; top: 22vh; color: var(--color-bg); text-align: right;
+  font-family: var(--font-display); font-style: italic; line-height: 1; text-shadow: 0 2px 14px rgba(0,0,0,0.5);
+}
+.hero-badge strong { display: block; font-size: clamp(2.6rem, 5vw, 3.6rem); font-weight: 300; }
+.hero-badge span { display: block; font-family: var(--font-body); font-style: normal; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; margin-top: 0.5rem; text-shadow: 0 1px 3px rgba(0,0,0,0.9), 0 0 14px rgba(10,24,48,0.9); }
+.hero-scroll { position: absolute; bottom: 3vh; right: 4vw; z-index: 2; color: rgba(250,250,247,0.45); font-size: 1.1rem; animation: scrollBounce 2.6s ease-in-out infinite; line-height: 1; }
+@keyframes scrollBounce { 0%,100% { transform: translateY(0); opacity: 0.35; } 50% { transform: translateY(9px); opacity: 0.75; } }
+@media (max-width: 720px) {
+  .hero-badge { top: auto; bottom: auto; top: 6.5rem; right: 1.5rem; }
+  .hero-content { bottom: 7vh; }
+  .hero-title .word:last-child { padding-left: 0.35em; }
+}
+
+/* ===== MARQUEE — les plats de la maison ==================== */
+.marquee-section { background: var(--color-azulejo); padding-block: 1.15rem; overflow: hidden; white-space: nowrap; }
+.marquee-track { display: inline-flex; white-space: nowrap; animation: marqueeScroll 38s linear infinite; }
+.marquee-track:hover { animation-play-state: paused; }
+.marquee-item { font-family: var(--font-display); font-style: italic; font-size: clamp(1rem, 1.7vw, 1.2rem); color: #f3f6fb; }
+.marquee-sep { color: var(--color-azulejo-soft); padding: 0 2.25rem; font-style: normal; }
+@keyframes marqueeScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ===== À PROPOS — 1/3 + 2/3 (asymétrie) ==================== */
+.about-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 6rem; align-items: start; }
+.about-sidebar { position: sticky; top: 7rem; }
+.about-sidebar .section-title { font-size: clamp(1.9rem, 3.5vw, 2.75rem); margin-bottom: 1.5rem; }
+.about-note { font-family: var(--font-display); font-size: clamp(4.5rem, 9vw, 7.5rem); font-weight: 300; font-style: italic; color: var(--color-azulejo-soft); line-height: 0.9; margin-top: 2rem; }
+.about-sidebar .section-title em { color: var(--color-azulejo); }
+.about-body .lead em { color: var(--color-azulejo); }
+.about-note-label { font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-accent); font-weight: 500; }
+.about-body p { font-size: 1.05rem; line-height: 1.9; margin-bottom: 1.6rem; }
+.about-body .lead { font-family: var(--font-display); font-style: italic; font-size: clamp(1.45rem, 2.6vw, 1.9rem); line-height: 1.4; font-weight: 300; margin-bottom: 2rem; }
+.about-photo { margin-top: 2.75rem; position: relative; }
+/* Panneau d'azulejos décalé derrière la photo */
+.about-photo::before {
+  content: ''; position: absolute; top: -44px; right: -17%; width: 50%; height: 82%; z-index: 0;
+  background: var(--color-bg) var(--azulejo-tile) 0 0 / 54px 54px; opacity: 0.9;
+  border: 1px solid rgba(31,78,156,0.35);
+}
+.about-photo img { position: relative; z-index: 1; width: 108%; max-width: none; aspect-ratio: 4/3; object-fit: cover; filter: saturate(0.9); }
+.about-photo figcaption { margin-top: 0.85rem; font-family: var(--font-display); font-style: italic; font-size: 0.95rem; opacity: 0.55; }
+@media (max-width: 900px) {
+  .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .about-sidebar { position: static; }
+  .about-photo img { width: 100%; }
+  .about-photo::before { right: -1.25rem; top: -1.25rem; width: 55%; }
+}
+
+/* ===== SIGNATURE — frise d'azulejos + étymologie ========== */
+.azulejo-band {
+  height: 72px;
+  background-color: #f4f1ea;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Crect width='72' height='72' fill='%23f4f1ea'/%3E%3Cg fill='none' stroke='%231f4e9c' stroke-width='1.6'%3E%3Ccircle cx='36' cy='36' r='11'/%3E%3Cpath d='M36 4c7 9 7 16 0 18c-7-2-7-9 0-18z'/%3E%3Cpath d='M36 68c7-9 7-16 0-18c-7 2-7 9 0 18z'/%3E%3Cpath d='M4 36c9-7 16-7 18 0c-2 7-9 7-18 0z'/%3E%3Cpath d='M68 36c-9-7-16-7-18 0c2 7 9 7 18 0z'/%3E%3Cpath d='M0 14a14 14 0 0 0 14-14M58 0a14 14 0 0 0 14 14M72 58a14 14 0 0 0-14 14M14 72A14 14 0 0 0 0 58'/%3E%3Crect x='0.8' y='0.8' width='70.4' height='70.4'/%3E%3C/g%3E%3Cg fill='%231f4e9c'%3E%3Ccircle cx='36' cy='36' r='4'/%3E%3Ccircle cx='0' cy='0' r='4'/%3E%3Ccircle cx='72' cy='0' r='4'/%3E%3Ccircle cx='0' cy='72' r='4'/%3E%3Ccircle cx='72' cy='72' r='4'/%3E%3Cpath d='M36 26l3 5h-6zM36 46l3-5h-6zM26 36l5-3v6zM46 36l-5-3v6z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 72px 72px; background-repeat: repeat-x;
+}
+/* Section en bleu nuit, motif azulejo en filigrane */
+.etymologie {
+  position: relative; text-align: center; color: #f3f6fb;
+  padding-block: clamp(4.5rem, 10vh, 7rem);
+  background-color: var(--color-azulejo-deep);
+  background-image: linear-gradient(rgba(15,42,82,0.93), rgba(15,42,82,0.93)), var(--azulejo-tile-light);
+  background-size: auto, 96px 96px;
+}
+.etymologie .section-label { color: var(--color-azulejo-soft); }
+.etymo-intro { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: clamp(1.35rem, 2.6vw, 1.8rem); max-width: 40ch; margin: 0 auto 3.5rem; line-height: 1.45; }
+.etymo-frise { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: start; gap: 1.5rem; max-width: 1040px; margin: 0 auto; }
+.etymo-step h3 { font-size: clamp(2rem, 4.2vw, 3.4rem); font-weight: 300; font-style: italic; line-height: 1; margin-bottom: 0.9rem; }
+.etymo-step:last-child h3 { color: #fff; font-weight: 400; }
+.etymo-when { display: block; font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-bronze); font-weight: 600; margin-bottom: 0.6rem; }
+.etymo-step p { font-size: 0.92rem; color: #c9d6ea; max-width: 26ch; margin: 0 auto; line-height: 1.65; }
+.etymo-arrow { font-family: var(--font-display); font-size: 2.2rem; color: var(--color-azulejo-soft); padding-top: 0.6rem; }
+.etymo-outro { margin-top: 3.5rem; font-size: 0.95rem; color: #c9d6ea; }
+.etymo-outro em { font-family: var(--font-display); font-size: 1.25rem; color: #fff; }
+@media (max-width: 760px) {
+  .etymo-frise { grid-template-columns: 1fr; gap: 1rem; }
+  .etymo-arrow { transform: rotate(90deg); padding: 0; line-height: 1; }
+}
+
+/* ===== GALERIE — tuile maîtresse + hover caption ========== */
+.galerie-section { background: var(--color-bg); }
+.galerie-head { display: flex; justify-content: space-between; align-items: end; gap: 2rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+.galerie-head .section-title { margin-bottom: 0; }
+.galerie-head p { max-width: 34ch; font-size: 0.95rem; opacity: 0.65; }
+.galerie { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 15vw; gap: 6px; }
+.galerie figure { position: relative; overflow: hidden; background: var(--color-subtle); }
+.galerie figure:first-child { grid-column: span 2; grid-row: span 2; }
+.galerie figure:nth-child(4),
+.galerie figure:nth-child(5),
+.galerie figure:nth-child(6) { grid-column: span 2; }
+.galerie img { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.85); transition: transform 1000ms cubic-bezier(0.22,1,0.36,1); }
+.galerie figure::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,42,82,0.85) 0%, rgba(31,78,156,0.15) 55%, transparent 70%); opacity: 0; transition: opacity 500ms ease; pointer-events: none; }
+.galerie figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 1rem 1.25rem; color: #fff; font-family: var(--font-display); font-style: italic; font-size: 1.05rem; z-index: 2; transform: translateY(12px); opacity: 0; transition: transform 500ms ease, opacity 500ms ease; pointer-events: none; }
+.galerie figure:hover img { transform: scale(1.06); }
+.galerie figure:hover::after { opacity: 1; }
+.galerie figure:hover figcaption { transform: none; opacity: 1; }
+@media (hover: none) {
+  .galerie figure::after { opacity: 1; }
+  .galerie figcaption { opacity: 1; transform: none; font-size: 0.95rem; }
+}
+@media (max-width: 760px) {
+  .galerie { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 42vw; }
+  .galerie figure:nth-child(4), .galerie figure:nth-child(5) { grid-column: span 1; }
+  .galerie figure:nth-child(6) { grid-column: span 2; }
+}
+
+/* ===== MENU — aperçu de la carte, chiffres romains ======== */
+/* Fond « carreau émaillé » : bleu porcelaine + motif azulejo très léger */
+.menu-section {
+  position: relative;
+  background-color: var(--color-subtle);
+  background-image: linear-gradient(rgba(230,237,247,0.9), rgba(230,237,247,0.9)), var(--azulejo-tile);
+  background-size: auto, 88px 88px;
+}
+.menu-cols { background: var(--color-bg); padding: clamp(2rem, 4vw, 3.5rem) clamp(1.25rem, 4vw, 3.5rem) 1rem; border: 1px solid rgba(31,78,156,0.18); box-shadow: 0 0 0 8px rgba(250,250,247,0.6); }
+.menu-head h3 { color: var(--color-azulejo); }
+.menu-intro { text-align: center; margin-bottom: 4rem; }
+.menu-intro .section-title { margin-bottom: 1rem; }
+.menu-intro p { font-style: italic; opacity: 0.6; font-size: 0.92rem; }
+.menu-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 5rem; max-width: 1000px; margin: 0 auto; }
+.menu-block { margin-bottom: 3rem; }
+.menu-head { display: flex; align-items: baseline; gap: 1.1rem; padding-bottom: 0.9rem; margin-bottom: 1.1rem; border-bottom: 1px solid rgba(31,78,156,0.25); }
+.menu-roman { font-family: var(--font-display); font-style: italic; font-size: 1rem; color: var(--color-accent); min-width: 1.6rem; }
+.menu-head h3 { font-size: 1.45rem; font-weight: 400; font-style: italic; }
+.menu-item { padding: 0.8rem 0.5rem; border-radius: 3px; transition: transform 400ms ease, background 400ms ease, padding 400ms ease; }
+.menu-item:hover { transform: translateY(-2px); background: rgba(31,78,156,0.06); padding-inline: 1rem; }
+.menu-item h4 { font-size: 1.15rem; font-weight: 400; }
+.menu-item p { font-style: italic; font-size: 0.88rem; opacity: 0.6; line-height: 1.5; margin-top: 0.1rem; }
+.menu-foot { text-align: center; margin-top: 1rem; font-size: 0.85rem; opacity: 0.6; }
+@media (max-width: 800px) { .menu-cols { grid-template-columns: 1fr; } }
+
+/* ===== RÉSERVATION — fond fixe (chais de porto) =========== */
+.reservation {
+  position: relative; color: var(--color-bg); text-align: center;
+  background-color: var(--color-secondary);
+  background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.42)), url('assets/photos/chais-porto.jpg');
+  background-attachment: fixed; background-position: center; background-size: cover;
+}
+@media (max-width: 900px), (hover: none) { .reservation { background-attachment: scroll; } }
+.reservation .container { max-width: 720px; }
+.reservation .section-label { color: var(--color-azulejo-soft); }
+.reservation .res-info { color: #c9d6ea; opacity: 1; }
+.reservation .section-title { margin-bottom: 1.25rem; text-shadow: 0 2px 16px rgba(0,0,0,0.5); }
+.reservation-sub { font-size: 1rem; opacity: 0.8; margin-bottom: 3rem; line-height: 1.7; }
+.reservation-infos { display: flex; justify-content: center; gap: 3.5rem; margin-bottom: 3rem; flex-wrap: wrap; }
+.res-info { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.7; }
+.res-info strong { display: block; font-family: var(--font-display); font-size: 1.2rem; font-style: italic; font-weight: 300; letter-spacing: 0; text-transform: none; opacity: 1; margin-top: 0.4rem; color: var(--color-bg); }
+.btn-res { display: inline-block; font-size: 0.74rem; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600; padding: 1.15rem 3rem; border: 1px solid rgba(250,250,247,0.65); color: var(--color-bg); transition: background 350ms, color 350ms; }
+.btn-res:hover { background: var(--color-bg); color: var(--color-azulejo); }
+.hero-cta:hover { color: var(--color-azulejo); }
+
+/* ===== CONTACT ============================================ */
+.contact-grid { display: grid; grid-template-columns: 1fr 1.25fr; gap: 5rem; align-items: start; }
+address { font-style: normal; }
+.contact-block { margin-bottom: 2.1rem; }
+.contact-block-label { font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-accent); font-weight: 500; margin-bottom: 0.65rem; display: block; }
+.contact-block p, .contact-block a { font-size: 0.98rem; line-height: 1.85; transition: color 200ms; }
+.contact-block a:hover { color: var(--color-accent); }
+.contact-tel { font-family: var(--font-display); font-size: 1.9rem !important; font-style: italic; color: var(--color-azulejo); }
+.contact-info .section-title em { color: var(--color-azulejo); }
+.horaires { display: grid; grid-template-columns: 6.5rem 1fr; gap: 0.35rem 1rem; }
+.horaires dt { font-weight: 500; font-size: 0.9rem; }
+.horaires dd { font-size: 0.9rem; opacity: 0.7; }
+.horaires .ferme { opacity: 0.32; }
+.contact-links { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 0.5rem; }
+.contact-links a { font-size: 0.7rem !important; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; color: var(--color-accent); border-bottom: 1px solid var(--color-accent); padding-bottom: 0.15rem; }
+.contact-visual { position: relative; margin-top: 4rem; padding: 18px; background: var(--color-bg) var(--azulejo-tile) -9px -9px / 36px 36px; border: 1px solid rgba(31,78,156,0.3); }
+.contact-visual img { width: 100%; aspect-ratio: 4/5; object-fit: cover; filter: saturate(0.85); }
+.contact-visual figcaption { position: absolute; left: -2.5rem; bottom: 2.5rem; background: var(--color-azulejo); color: #f3f6fb; padding: 1.4rem 1.75rem; max-width: 280px; font-family: var(--font-display); font-style: italic; font-size: 1.2rem; line-height: 1.35; box-shadow: 0 18px 40px rgba(15,42,82,0.3); }
+@media (max-width: 860px) {
+  .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .contact-visual { margin-top: 0; }
+  .contact-visual img { aspect-ratio: 4/3; }
+  .contact-visual { padding: 10px; }
+  .contact-visual figcaption { position: static; max-width: none; box-shadow: none; padding: 1rem 1.1rem; }
+}
+
+/* ===== FOOTER ============================================= */
+.footer { background: var(--color-azulejo-deep); color: var(--color-bg); padding-top: 4.5rem; padding-bottom: 6rem; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; padding-bottom: 3.5rem; border-bottom: 1px solid rgba(159,182,218,0.18); margin-bottom: 2rem; }
+.footer-logo {
+  display: block; width: 120px; aspect-ratio: 642 / 556; margin-bottom: 1.25rem;
+  background-color: #f3f6fb;
+  -webkit-mask: url('assets/logo-portus-cale.png') center / contain no-repeat;
+          mask: url('assets/logo-portus-cale.png') center / contain no-repeat;
+}
+.footer-brand-name { font-family: var(--font-display); font-size: 2.4rem; font-weight: 300; font-style: italic; margin-bottom: 0.6rem; display: block; }
+.footer-col h4 { color: var(--color-azulejo-soft); }
+.footer-brand p { font-size: 0.9rem; opacity: 0.5; max-width: 300px; }
+.footer-col h4 { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.45; font-weight: 500; font-family: var(--font-body); margin-bottom: 1.1rem; }
+.footer-col p, .footer-col a, .footer-col address { font-size: 0.9rem; opacity: 0.68; line-height: 1.8; font-style: normal; display: block; }
+.footer-col a:hover { opacity: 1; }
+.footer-bottom { display: flex; justify-content: space-between; font-size: 0.74rem; opacity: 0.38; flex-wrap: wrap; gap: 0.5rem; }
+@media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; } .footer-brand { grid-column: 1 / -1; } }
+
+/* ===== BANDEAU « MAQUETTE » =============================== */
+.preview-banner {
+  position: fixed; left: 50%; bottom: 1rem; transform: translateX(-50%); z-index: 200;
+  display: flex; align-items: center; gap: 1rem; width: max-content; max-width: calc(100% - 2rem);
+  background: rgba(15,42,82,0.94); color: var(--color-bg); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  padding: 0.7rem 0.8rem 0.7rem 1.3rem; font-size: 0.78rem; line-height: 1.45; border: 1px solid rgba(159,182,218,0.45);
+}
+.preview-banner strong { font-family: var(--font-display); font-style: italic; font-size: 0.98rem; font-weight: 400; color: var(--color-azulejo-soft); }
+.preview-banner button { background: none; border: 1px solid rgba(250,250,247,0.25); color: var(--color-bg); width: 1.9rem; height: 1.9rem; flex-shrink: 0; font-size: 1rem; line-height: 1; opacity: 0.7; }
+.preview-banner button:hover { opacity: 1; }
+.preview-banner[hidden] { display: none; }
+
+/* ===== ANIMATIONS (Gastro : lentes) ======================= */
+/* Cachés seulement si le JS tourne (classe .js posée dans le <head>) : sans JS, tout reste visible. */
+.reveal-words .word { display: inline-block; }
+.js .reveal-words .word {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 1100ms cubic-bezier(0.22,1,0.36,1), transform 1100ms cubic-bezier(0.22,1,0.36,1);
+  transition-delay: calc(var(--i, 0) * 140ms);
+}
+.js .reveal-words.visible .word { opacity: 1; transform: none; }
+.js .fade-up { opacity: 0; transform: translateY(26px); transition: opacity 1200ms cubic-bezier(0.22,1,0.36,1), transform 1200ms cubic-bezier(0.22,1,0.36,1); }
+.js .fade-up.visible { opacity: 1; transform: none; }
+
+/* ===== ACCESSIBILITÉ ====================================== */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  .js .reveal-words .word, .js .fade-up { opacity: 1; transform: none; }
+}
