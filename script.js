@@ -69,7 +69,4 @@
     }, { passive: true });
   }
 
-  // --- Bandeau maquette ---
-  const banner = document.getElementById('previewBanner');
-  banner.querySelector('button').addEventListener('click', () => { banner.hidden = true; });
 })();
